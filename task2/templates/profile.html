@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <div class="container" id="container">
+    <form >
+
+      <h2>Welcome, {{ user.username or user.login }}!</h2>
+      {% if github_profile_url %}
+        <a href="{{ github_profile_url }}" target="_blank" style="text-decoration: none;">
+          <button type="button" style="padding: 10px 25px; font-size: 14px; border-radius: 20px; background: #333; color: white; border: none; cursor: pointer;">
+            View GitHub Profile
+          </button>
+        </a>
+      {% else %}
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        {% if user.auth_method == 'github' %}
+          <p>This is a GitHub account, but we couldn't fetch your profile info.</p>
+        {% else %}
+          <p>This is a manually registered account.</p>
+        {% endif %}
+      {% endif %}
+
+      <a href="{{ url_for('logout') }}" style="text-decoration: none;">
+        <button type="button">
+          Log Out
+        </button>
+      </a>
+
+    </form>
+  </div>
+
+</body>
+</html>

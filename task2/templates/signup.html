@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signup Page</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+  <!-- Your custom stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <!-- Sign Up Form -->
+        <div class="form-container sign-up" id="signupForm">
+            <form id="signupFormElement" action="/signup" method="POST">
+                <h1>Create Account</h1>
+
+                <span>Use your email for registration</span>
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                <div class="password-wrapper">
+                  <input type="password" id="passwordSignup" name="password" class="form-control" placeholder="Password" required minlength="8">
+                  <button type="button" class="toggle-password" onclick="togglePassword('passwordSignup', this)">
+                    <i class="fa fa-eye"></i>
+                  </button>
+                </div>
+                <button type="submit" class="btn btn-success">Signup</button>
+            </form>
+        </div>
+
+        <!-- Toggle Buttons -->
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome Back!</h1>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Hello</h1>
+                    <p>Already have an account? Log in now!</p>
+                    <a href="/login" id="loginLink"><button>Log In</button></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="static/js/script.js"></script>
+</body>
+
+</html>
