@@ -16,14 +16,15 @@ function togglePassword(inputId, button) {
 
 // Password validation based on the policy
 function validatePassword(password) {
-  const validationCriteria = {
-    lowerCase: (password.match(/[a-z]/g) || []).length >= 1,
-    upperCase: (password.match(/[A-Z]/g) || []).length >= 1,
-    numbers: (password.match(/[0-9]/g) || []).length >= 1,
-    specialChar: (password.match(/[!@#$%^&*(),.?":{}|<>~`_+\-=\\[\]\/]/g) || []).length >= 1,
-  }
+    const validationCriteria = {
+        lowerCase: (password.match(/[a-z]/g) || []).length >= 1,
+        upperCase: (password.match(/[A-Z]/g) || []).length >= 1,
+        numbers: (password.match(/[0-9]/g) || []).length >= 1,
+        specialChar: (password.match(/[!@#$%^&*(),.?":{}|<>~`_+\-=\\[\]\/]/g) || []).length >= 1,
+    };
 
-  return validationCriteria.lowerCase && validationCriteria.upperCase && validationCriteria.numbers && validationCriteria.specialChar;
+    return validationCriteria.lowerCase && validationCriteria.upperCase &&
+           validationCriteria.numbers && validationCriteria.specialChar;
 }
 
 // Email validation regex
@@ -32,11 +33,28 @@ function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+// Load Remember Me info on page load
+window.addEventListener('DOMContentLoaded', function () {
+    const remember = localStorage.getItem('rememberMe') === 'true';
+    const savedEmail = localStorage.getItem('savedEmail');
+
+    if (remember && savedEmail) {
+        const emailField = document.getElementById('email');
+        const rememberCheckbox = document.getElementById('rememberMe');
+
+        if (emailField && rememberCheckbox) {
+            emailField.value = savedEmail;
+            rememberCheckbox.checked = true;
+        }
+    }
+});
+
 // Form submission handler for validation
 document.getElementById('signupFormElement').addEventListener('submit', function(event) {
     const emailField = document.getElementById('email');
     const passwordField = document.getElementById('passwordSignup');
     const usernameField = document.getElementById('username');
+    const rememberCheckbox = document.getElementById('rememberMe');
 
     const passwordValid = validatePassword(passwordField.value);
     const emailValid = validateEmail(emailField.value);
@@ -68,5 +86,14 @@ document.getElementById('signupFormElement').addEventListener('submit', function
         alert("Please fill in all fields.");
         event.preventDefault();
         return;
+    }
+
+    // Handle Remember Me saving
+    if (rememberCheckbox && rememberCheckbox.checked) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('savedEmail', emailField.value);
+    } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('savedEmail');
     }
 });
